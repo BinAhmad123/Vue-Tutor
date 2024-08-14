@@ -5,6 +5,8 @@ import LoadingComponent from './components/LoadingComponent.vue'
 import ErrorComponent from './components/ErrorComponent.vue'
 import MyTransition from './components/MyTransition.vue'
 import MyTransition1 from './components/MyTransition1.vue'
+import FilterTransition from './components/FilterTransition.vue'
+import MyKeepAlive from './components/MyKeepAlive.vue'
 import { defineAsyncComponent } from 'vue'
 const AsyncComp = defineAsyncComponent({
   loader: () => import('./components/MyWork.vue'),
@@ -35,6 +37,12 @@ const AsyncComp = defineAsyncComponent({
     <AsyncComp />
     <MyTransition />
     <MyTransition1 />
+    <br />
+    <p>FilterTransition</p>
+    <FilterTransition />
+    <br />
+    <p>KeepAlive</p>
+    <MyKeepAlive />
   </footer>
 </template>
 
