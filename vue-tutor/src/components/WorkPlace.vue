@@ -23,7 +23,7 @@ const AsyncComp = defineAsyncComponent({
 
 <template>
   <main>
-    <p>AsyncComp</p>
+    <p>My Work</p>
     <AsyncComp />
     <br />
     <p>AsyncComp</p>
