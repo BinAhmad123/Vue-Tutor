@@ -3,9 +3,11 @@ import HelloWorld from './components/HelloWorld.vue'
 import TheWelcome from './components/TheWelcome.vue'
 import LoadingComponent from './components/LoadingComponent.vue'
 import ErrorComponent from './components/ErrorComponent.vue'
-import { defineAsyncComponent } from 'vue';
+import MyTransition from './components/MyTransition.vue'
+import MyTransition1 from './components/MyTransition1.vue'
+import { defineAsyncComponent } from 'vue'
 const AsyncComp = defineAsyncComponent({
-  loader: ()=>import('./components/MyWork.vue'),
+  loader: () => import('./components/MyWork.vue'),
 
   loadingComponent: LoadingComponent,
 
@@ -31,6 +33,8 @@ const AsyncComp = defineAsyncComponent({
   </main>
   <footer>
     <AsyncComp />
+    <MyTransition />
+    <MyTransition1 />
   </footer>
 </template>
 
