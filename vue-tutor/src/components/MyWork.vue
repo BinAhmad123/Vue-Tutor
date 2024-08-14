@@ -33,6 +33,7 @@ onUpdated(() => {
 })
 fetchData()
 watch(id, fetchData)
+defineProps<{title?: String}>()
 </script>
 
 <template>

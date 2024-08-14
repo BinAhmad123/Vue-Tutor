@@ -1,7 +1,20 @@
 <script setup lang="ts">
 import HelloWorld from './components/HelloWorld.vue'
 import TheWelcome from './components/TheWelcome.vue'
-import MyWork from './components/MyWork.vue'
+import LoadingComponent from './components/LoadingComponent.vue'
+import ErrorComponent from './components/ErrorComponent.vue'
+import { defineAsyncComponent } from 'vue';
+const AsyncComp = defineAsyncComponent({
+  loader: ()=>import('./components/MyWork.vue'),
+
+  loadingComponent: LoadingComponent,
+
+  delay: 200,
+
+  errorComponent: ErrorComponent,
+
+  timeout: 3000
+})
 </script>
 
 <template>
@@ -17,7 +30,7 @@ import MyWork from './components/MyWork.vue'
     <TheWelcome />
   </main>
   <footer>
-    <MyWork />
+    <AsyncComp />
   </footer>
 </template>
 
