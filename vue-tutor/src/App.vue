@@ -1,49 +1,32 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-import LoadingComponent from './components/LoadingComponent.vue'
-import ErrorComponent from './components/ErrorComponent.vue'
-import MyTransition from './components/MyTransition.vue'
-import MyTransition1 from './components/MyTransition1.vue'
-import FilterTransition from './components/FilterTransition.vue'
-import MyKeepAlive from './components/MyKeepAlive.vue'
-import { defineAsyncComponent } from 'vue'
-const AsyncComp = defineAsyncComponent({
-  loader: () => import('./components/MyWork.vue'),
+import { ref, computed } from 'vue'
+import Home from './components/Home.vue'
+import WorkPlace from './components/WorkPlace.vue'
+import NotFound from './components/PageNotFound.vue'
 
-  loadingComponent: LoadingComponent,
+type RouteComponent = {}
+type Routes = {
+  [key: string]: RouteComponent
+}
+const routes: Routes = {
+  '/': Home,
+  '/workplace': WorkPlace
+}
+const currentPath = ref(window.location.hash)
 
-  delay: 200,
+window.addEventListener('hashchange', () => {
+  currentPath.value = window.location.hash
+})
 
-  errorComponent: ErrorComponent,
-
-  timeout: 3000
+const currentView = computed(() => {
+  return routes[currentPath.value.slice(1) || '/'] || NotFound
 })
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
-  <footer>
-    <AsyncComp />
-    <MyTransition />
-    <MyTransition1 />
-    <br />
-    <p>FilterTransition</p>
-    <FilterTransition />
-    <br />
-    <p>KeepAlive</p>
-    <MyKeepAlive />
-  </footer>
+  <a href="#/">Home</a> | <a href="#/workplace">WorkPlace</a> |
+  <a href="#/non-existent-path">Broken Link</a> 
+  <component :is="currentView" />
 </template>
 
 <style scoped>
