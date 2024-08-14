@@ -22,7 +22,7 @@ const docState = ref('saved')
   height: 1em;
 }
 
-button {
+.btn-container button {
   position: absolute;
 }
 
