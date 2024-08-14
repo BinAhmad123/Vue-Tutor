@@ -1,69 +1,30 @@
 <script setup lang="ts">
-import { onUpdated } from 'vue'
-import { watch } from 'vue'
-import { onMounted } from 'vue'
-import { reactive, ref } from 'vue'
-const message = ref('Hello World!')
-const titleClass = ref('title')
-const counter = reactive({ count: 0 })
-const id = ref(1)
-const list = ref(null)
-const input = ref('')
-const todoData = ref(null)
+import { ref, computed } from 'vue'
+import { useFetch } from './useFetch'
 
-async function fetchData() {
-  todoData.value = null
-  const res = await fetch(`https://jsonplaceholder.typicode.com/todos/${id.value}`)
-  todoData.value = await res.json()
-  console.log('todoData.value====>', todoData.value, todoData.value.id)
+const baseUrl = 'https://jsonplaceholder.typicode.com/todos/'
+const id = ref('1')
+const url = computed(() => baseUrl + id.value)
+
+const { data, error } = useFetch(url)
+console.log(url.value, data.value, error.value)
+const retry = () => {
+  id.value = ''
+  id.value = '1'
 }
-// function add() {
-//   console.log(typeof list, typeof list.value, list, list.value)
-//   list.value.push({ id: id.value++, text: input.value, done: false })
-// }
-// function remove(x: any) {
-//   list.value = list.value.filter((t) => t.id !== x.id)
-// }
-onMounted(() => {
-  //   alert('Mounted')
-})
-onUpdated(() => {
-  //   console.log('list', list.value, typeof )
-  //   alert('Updated')
-})
-fetchData()
-watch(id, fetchData)
-defineProps<{title?: String}>()
 </script>
 
 <template>
-  <div>My Work</div>
-  <p :class="titleClass">{{ message }}</p>
-  <!-- <button @click="add()"></button> -->
-  <p>Count is :{{ counter.count }}</p>
-  <input type="text" v-model="input" />
-  <div v-if="!todoData">Loading...</div>
-  <div v-else>
-    <input type="checkbox" v-model="todoData.completed" />
-    <p :class="{ done: todoData.completed }">
-      {{ todoData.title }}
-      <!-- <button @click="remove(todoData)"></button> -->
-    </p>
-  </div>
-  <!-- <div v-for="item in list" :key="item.id">
-    <input type="checkbox" v-model="item.done" />
-    <p :class="{ done: !item.done }">
-      {{ item.text }}
-      <button @click="remove(item)"></button>
-    </p>
-  </div> -->
-</template>
+  Load post id:
+  <button v-for="i in 5" @click="id = `${i}`">{{ i }}</button>
 
-<style scoped>
-.title {
-  color: red;
-}
-.done {
-  text-decoration: line-through;
-}
-</style>
+  <div v-if="error">
+    <p>Oops! Error encountered: {{ error.message }}</p>
+    <button @click="retry">Retry</button>
+  </div>
+  <div v-else-if="data">
+    Data loaded:
+    <pre>{{ data }}</pre>
+  </div>
+  <div v-else>Loading...</div>
+</template>
